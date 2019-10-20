@@ -66,23 +66,21 @@ group {
 {% if pool.options is defined and pool.options %}
 {{ pool.options | indent(24, true) }}
 {% endif %}
-{% endfor %}
-{% endif %}
+{% endfor %} {# pools #}
+{% endif %} {# pools #}
 
 {% if subnet.options is defined and subnet.options %}
 {% subnet.options | indent(16, true) %}
 {% endif %}
 
         }
-{% endfor %}
-{% endif %}
+{% endfor %} {# subnets #}
+{% endif %} {# subnets #}
 
 {% if group.options is defined and group.options %}
 {{ group.options | indent(8, true) }}
 {% endif %}
 
-{% endfor %}
-{% endif %}
 }
 {% endfor %}
 {% endif %}
