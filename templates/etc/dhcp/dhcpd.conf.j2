@@ -60,14 +60,16 @@ group {
 {% if group.subnets is defined and group.subnets %}
 {% for subnet in group.subnets %}
 {% if subnet.pools is defined and subnet.pools %}
-{% for pool in subnet.pools %}
 	subnet {{ subnet.address | ipaddr('network') }} netmask {{ subnet.address | ipaddr('netmask') }} {
-		range {{ subnet.range }};
+{% for pool in subnet.pools %}
+		pool {
+			range {{ subnet.range }};
 {% if pool.options is defined and pool.options %}
-{{ pool.options | indent(16) }}
+{{ pool.options | indent(24) }}
 {% endif %}
-	}
+		}
 {% endfor %}
+	}
 {% endif %}
 {% endfor %}
 {% endif %}
