@@ -56,8 +56,8 @@ zone {{ zone.name }} {
 group {
 {% if group.subnets is defined and group.subnets %}
 {% for subnet in group.subnets %}
-{% if subnet.pools is defined and subnet.pools %}
         subnet {{ subnet.address | ipaddr('network') }} netmask {{ subnet.address | ipaddr('netmask') }} {
+{% if subnet.pools is defined and subnet.pools %}
 {% for pool in subnet.pools %}
                 pool {
                         range {{ pool.range }};
@@ -66,15 +66,16 @@ group {
 {% endif %}
                 }
 {% endfor %}
-        }
 {% endif %}
 {% if subnet.options is defined and subnet.options %}
 {% subnet.options | indent(16, true) %}
 {% endif %}
+        }
 {% endfor %}
 {% if group.options is defined and group.options %}
 {{ group.options | indent(8, true) }}
 {% endif %}
+{% endfor %}
 {% endif %}
 }
 {% endfor %}
