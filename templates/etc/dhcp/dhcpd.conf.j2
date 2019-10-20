@@ -70,12 +70,12 @@ group {
 {% endif %} {# pools #}
 
 {% if subnet.options is defined and subnet.options %}
-{% subnet.options | indent(16, true) %}
+{{ subnet.options | indent(16, true) }}
 {% endif %}
 
         }
-{% endfor %} {# subnets #}
-{% endif %} {# subnets #}
+{% endfor %}
+{% endif %}
 
 {% if group.options is defined and group.options %}
 {{ group.options | indent(8, true) }}
