@@ -8,7 +8,7 @@
           - ens18
         dubzland_dhcpd_failovers:
           - name: dubzland-failover
-            primary: 10.0.10.2
+            primary: "{{ ansible_default_ipv4 }}"
             secondary: 10.0.10.3
   tasks:
     - name: dump the network interfaces
