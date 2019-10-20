@@ -33,7 +33,7 @@ failover peer "{{ failover.name }}" {
 {# DYNAMIC DNS KEYS #}
 {% if dubzland_dhcpd_keys is defined and dubzland_dhcpd_keys %}
 {% for key in dubzland_dhcpd_keys %}
-key {{ key.name }} }
+key {{ key.name }} {
 	algorithm {{ key.algorithm | default('hmac-md5') }};
 	secret {{ key.secret }};
 }
