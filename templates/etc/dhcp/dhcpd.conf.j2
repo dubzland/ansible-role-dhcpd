@@ -54,9 +54,6 @@ zone {{ zone.name }} {
 {% if dubzland_dhcpd_groups is defined and dubzland_dhcpd_groups %}
 {% for group in dubzland_dhcpd_groups %}
 group {
-{% if group.options is defined and group.options %}
-{{ group.options | indent(8, true) }}
-{% endif %}
 {% if group.subnets is defined and group.subnets %}
 {% for subnet in group.subnets %}
 {% if subnet.pools is defined and subnet.pools %}
@@ -71,7 +68,13 @@ group {
 {% endfor %}
         }
 {% endif %}
+{% if subnet.options is defined and subnet.options %}
+{% subnet.options | indent(16, true) %}
+{% endif %}
 {% endfor %}
+{% if group.options is defined and group.options %}
+{{ group.options | indent(8, true) }}
+{% endif %}
 {% endif %}
 }
 {% endfor %}
