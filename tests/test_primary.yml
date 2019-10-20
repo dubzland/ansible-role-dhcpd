@@ -20,7 +20,7 @@
             key: dubzland
         dubzland_dhcpd_groups:
           - options: |
-            option domain-name "dubzland.net";
+              option domain-name "dubzland.net";
             subnets:
               - address: 10.0.10.0/24
                 pools:
