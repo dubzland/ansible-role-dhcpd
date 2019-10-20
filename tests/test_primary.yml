@@ -10,6 +10,7 @@
           - name: dubzland-failover
             primary: "{{ ansible_default_ipv4.address }}"
             secondary: 10.0.10.3
+            split: 128
         dubzland_dhcpd_keys:
           - name: dubzland
             secret: 1234567890ABCDEF
