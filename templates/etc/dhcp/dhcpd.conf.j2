@@ -50,7 +50,7 @@ zone {{ zone.name }} {
 {% endfor %}
 {% endif %}
 
-{# GROPUS #}
+{# GROUPS #}
 {% if dubzland_dhcpd_groups is defined and dubzland_dhcpd_groups %}
 {% for group in dubzland_dhcpd_groups %}
 group {
@@ -63,7 +63,7 @@ group {
 	subnet {{ subnet.address | ipaddr('network') }} netmask {{ subnet.address | ipaddr('netmask') }} {
 {% for pool in subnet.pools %}
 		pool {
-			range {{ subnet.range }};
+			range {{ pool.range }};
 {% if pool.options is defined and pool.options %}
 {{ pool.options | indent(24) }}
 {% endif %}
