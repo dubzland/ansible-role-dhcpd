@@ -65,7 +65,7 @@ group {
                 pool {
                         range {{ pool.range }};
 {% if pool.options is defined and pool.options %}
-{{ pool.options | indent(24) }}
+{{ pool.options | indent(24, true) }}
 {% endif %}
                 }
 {% endfor %}
