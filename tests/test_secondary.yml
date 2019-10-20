@@ -8,8 +8,8 @@
           - ens18
         dubzland_dhcpd_failovers:
           - name: dubzland-failover
-            primary: "{{ ansible_default_ipv4.address }}"
-            secondary: 10.0.10.3
+            primary: 10.0.10.3
+            secondary: "{{ ansible_default_ipv4.address }}"
   tasks:
     - name: grab dhcpd.conf
       command: /bin/cat /etc/dhcp/dhcpd.conf
@@ -19,3 +19,4 @@
         msg: "{{ dhcpd_conf.stdout_lines }}"
       when:
         dhcpd_conf is defined
+
