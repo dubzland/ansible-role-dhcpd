@@ -30,7 +30,7 @@
                 options: |
                   option routers 10.0.10.1;
                   option domain-name-servers ns1.dubzland.net;
-                  option domain-search dubzland.net;
+                  option domain-search "dubzland.net";
                   option ntp-servers 10.0.10.2;
   tasks:
     - name: grab dhcpd.conf
