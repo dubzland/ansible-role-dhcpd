@@ -10,8 +10,8 @@
 - name: ensure dhcpd listens on the proper interfaces
   lineinfile:
     dest: /etc/default/isc-dhcp-server
-    regexp: "^INTERFACES="
-    line: "INTERFACES=\"{{ dubzland_dhcpd_interfaces | join(' ') }}\""
+    regexp: "^INTERFACESv4="
+    line: "INTERFACESv4=\"{{ dubzland_dhcpd_interfaces | join(' ') }}\""
   notify:
     - restart dhcpd
   tags:
