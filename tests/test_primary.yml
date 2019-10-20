@@ -18,6 +18,20 @@
           - name: servers.local.dubzland.net
             primary: 10.0.10.2
             key: dubzland
+        dubzland_dhcpd_groups:
+          - options: |
+            option domain-name "dubzland.net";
+            subnets:
+              - address: 10.0.10.0/24
+                pools:
+                  - range: 10.0.10.101 10.0.10.254
+                    options: |
+                      failover peer 10.0.10.3;
+                options: |
+                  option routers 10.0.10.1;
+                  option domain-name-servers ns1.dubzland.net;
+                  option domain-search dubzland.net;
+                  option ntp-servers 10.0.10.2;
   tasks:
     - name: grab dhcpd.conf
       command: /bin/cat /etc/dhcp/dhcpd.conf

@@ -49,3 +49,28 @@ zone {{ zone.name }} {
 }
 {% endfor %}
 {% endif %}
+
+{# GROPUS #}
+{% if dubzland_dhcpd_groups is defined and dubzland_dhcpd_groups %}
+{% for group in dubzland_dhcpd_groups %}
+group {
+{% if group.options is defined and group.options %}
+{{ group.options | indent(8, true) }}
+{% endif %}
+{% if group.subnets is defined and group.subnets %}
+{% for subnet in group.subnets %}
+{% if subnet.pools is defined and subnet.pools %}
+{% for pool in subnet.pools %}
+	subnet {{ subnet.address | ipaddr('network') }} netmask {{ subnet.address | ipaddr('netmask') }} {
+		range {{ subnet.range }};
+{% if pool.options is defined and pool.options %}
+{{ pool.options | indent(16) }}
+{% endif %}
+	}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endif %}
+}
+{% endfor %}
+{% endif %}
