@@ -5,7 +5,7 @@
     - role: dubzland-dhcpd
       vars:
         dubzland_dhcpd_interfaces:
-          - ens18
+          - "{{ ansible_default_ipv4.interface }}"
         dubzland_dhcpd_failovers:
           - name: dubzland-failover
             primary: "{{ ansible_default_ipv4.address }}"
