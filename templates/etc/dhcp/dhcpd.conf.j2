@@ -5,7 +5,7 @@ ddns-updates on;
 ddns-update-style interim;
 
 {% if dubzland_dhcpd_failovers is defined and dubzland_dhcpd_failovers %}
-{% for failover in dhcpd_failovers %}
+{% for failover in dubzland_dhcpd_failovers %}
 failover peer "{{ failover.name }}" {
 {% if failover.primary is defined and failover.primary in ansible_all_ipv4_addresses | d([]) %}
 	primary;
