@@ -9,15 +9,8 @@ services:
 before_script:
   - docker info
 
-stages:
-  - build
-  - test
-
-build:
-  stage: build
-  script:
-    - docker build -t dubzland-dhcpd -f tests/Dockerfile .
 test:
   stage: test
   script:
+    - docker build -t dubzland-dhcpd -f tests/Dockerfile .
     - docker run dubzland-dhcpd /usr/src/dubzland-dhcpd/tests/run_tests.sh
