@@ -11,6 +11,9 @@
             primary: 10.0.10.2
             secondary: 10.0.10.3
   tasks:
+    - name: dump the network interfaces
+      debug:
+        msg: "interfaces: {{ ansible_all_ipv4_addresses }}"
     - name: grab dhcpd.conf
       command: /bin/cat /etc/dhcp/dhcpd.conf
       register: dhcpd_conf
