@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - role: dubzland-dhcpd
+      vars:
+        dubzland_dhcpd_interfaces:
+          - ens18
+        dubzland_dhcpd_failovers:
+          primary: 10.0.10.2
+          secondary: 10.0.10.3
+  tasks:
+    - name: grab dhcpd.conf
+      command: /bin/cat /etc/dhcp/dhcpd.conf
+      register: dhcpd_conf
+    - name: dump dhcpd.conf
+      debug:
+        msg: "{{ dhcpd_conf.stdout_lines }}"
+      when:
+        dhcpd_conf is defined

@@ -1,0 +1,31 @@
+---
+- name: ensure the dhcpd packages are installed
+  apt:
+    name: isc-dhcp-server
+    state: present
+    install_recommends: no
+  tags:
+    - dhcpd
+
+- name: ensure dhcpd listens on the proper interfaces
+  lineinfile:
+    dest: /etc/default/isc-dhcp-server
+    regexp: "^INTERFACES="
+    line: "INTERFACES=\"{{ dubzland_dhcpd_interfaces | join(' ') }}\""
+  notify:
+    - restart dhcpd
+  tags:
+    - dhcpd
+
+- name: ensure dhcpd is configured
+  template:
+    src: etc/dhcp/dhcpd.conf.j2
+    dest: /etc/dhcp/dhcpd.conf
+    owner: root
+    group: root
+    mode: 0660
+  notify:
+    - restart dhcpd
+  tags:
+    - dhcpd
+

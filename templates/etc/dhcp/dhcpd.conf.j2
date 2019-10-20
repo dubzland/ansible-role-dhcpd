@@ -1,0 +1,22 @@
+# {{ ansible_managed }}
+
+authoritative;
+ddns-updates on;
+ddns-update-style interim;
+
+{% if dubzland_dhcpd_failovers is defined and dubzland_dhcpd_failovers %}
+{% for failover in dhcpd_failovers %}
+failover peer "{{ failover.name }}" {
+{% if failover.primary is defined and failover.primary in ansible_all_ipv4_addresses | d([]) %}
+	primary;
+	address {{ failover.primary }};
+	peer address {{ failover.secondary }};
+	mclt {{ failover.mclt | default(3600) }};
+{% else %}
+	secondary;
+	address {{ failover.secondary }};
+	peer address {{ failover.primary }};
+{% endif %}
+}
+{% endfor %}
+{% endif %}
