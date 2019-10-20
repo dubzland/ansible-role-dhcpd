@@ -10,6 +10,13 @@
           - name: dubzland-failover
             primary: "{{ ansible_default_ipv4.address }}"
             secondary: 10.0.10.3
+        dubzland_dhcpd_keys:
+          - name: dubzland
+            secret: 1234567890ABCDEF
+        dubzland_dhcpd_zones:
+          - name: servers.local.dubzland.net
+            primary: 10.0.10.2
+            key: dubzland
   tasks:
     - name: grab dhcpd.conf
       command: /bin/cat /etc/dhcp/dhcpd.conf
