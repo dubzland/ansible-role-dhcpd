@@ -7,6 +7,7 @@
         dubzland_dhcpd_interfaces:
           - ens18
         dubzland_dhcpd_failovers:
+          name: dubzland-failover
           primary: 10.0.10.2
           secondary: 10.0.10.3
   tasks:
