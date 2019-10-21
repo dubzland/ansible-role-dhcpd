@@ -47,6 +47,7 @@ zone {{ zone.name }} {
         primary {{ zone.primary }};
         key {{ zone.key }};
 }
+
 {% endfor %}
 {% endif %}
 
@@ -62,7 +63,6 @@ group {
 {% if group.subnets is defined and group.subnets %}
 {% for subnet in group.subnets %}
         subnet {{ subnet.address | ipaddr('network') }} netmask {{ subnet.address | ipaddr('netmask') }} {
-
 {% if subnet.pools is defined and subnet.pools %}
 {% for pool in subnet.pools %}
                 pool {
@@ -73,11 +73,9 @@ group {
                 }
 {% endfor %} {# pools #}
 {% endif %} {# pools #}
-
 {% if subnet.options is defined and subnet.options %}
 {{ subnet.options | indent(16, true) }}
 {% endif %}
-
         }
 {% endfor %}
 {% endif %}
@@ -90,9 +88,10 @@ group {
                 fixed-address {{ host.address }};
 {% endif %}
         }
+
 {% endfor %}
 {% endif %}
-
 }
+
 {% endfor %}
 {% endif %}
