@@ -82,6 +82,15 @@ group {
 {{ group.options | indent(8, true) }}
 {% endif %}
 
+{% if group.hosts is defined and group.hosts %}
+{% for host in group.hosts %}
+        host {{ host.hostname }} {
+                hardware ethernet {{ host.mac }};
+                fixed-address {{ host.address }};
+        }
+{% endfor %}
+{% endif %}
+
 }
 {% endfor %}
 {% endif %}
