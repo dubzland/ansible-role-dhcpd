@@ -55,6 +55,10 @@ zone {{ zone.name }} {
 {% for group in dubzland_dhcpd_groups %}
 group {
 
+{% if group.options is defined and group.options %}
+{{ group.options | indent(8, true) }}
+{% endif %}
+
 {% if group.subnets is defined and group.subnets %}
 {% for subnet in group.subnets %}
         subnet {{ subnet.address | ipaddr('network') }} netmask {{ subnet.address | ipaddr('netmask') }} {
@@ -76,10 +80,6 @@ group {
 
         }
 {% endfor %}
-{% endif %}
-
-{% if group.options is defined and group.options %}
-{{ group.options | indent(8, true) }}
 {% endif %}
 
 {% if group.hosts is defined and group.hosts %}
