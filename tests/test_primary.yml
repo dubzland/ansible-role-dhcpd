@@ -35,7 +35,7 @@
             hosts:
               - hostname: server01
                 address: 10.0.10.5
-                mac: 01:0a:15:f3:16:a0;
+                mac: 01:0a:15:f3:16:a0
   tasks:
     - name: grab dhcpd.conf
       command: /bin/cat /etc/dhcp/dhcpd.conf
