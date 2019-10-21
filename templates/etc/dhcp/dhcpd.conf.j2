@@ -86,7 +86,9 @@ group {
 {% for host in group.hosts %}
         host {{ host.hostname }} {
                 hardware ethernet {{ host.mac }};
+{% if host.address is defined and host.address %}
                 fixed-address {{ host.address }};
+{% endif %}
         }
 {% endfor %}
 {% endif %}
