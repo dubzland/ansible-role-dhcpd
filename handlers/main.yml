@@ -3,3 +3,4 @@
   service:
     name: isc-dhcp-server
     state: restarted
+  when: skip_handlers | default(False) == False
