@@ -5,6 +5,10 @@
     enabled: yes
 
 - name: restart dhcpd
+  command: dhcpd -t --no-pid
+  notify: restart dhcpd (real)
+
+- name: restart dhcpd (real)
   service:
     name: "{{ dubzland_dhcpd_service }}"
     state: restarted
