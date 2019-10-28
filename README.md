@@ -1,38 +1,112 @@
-Role Name
-=========
+# Dubzland: DHCPD
+![Gitlab pipeline status (self-hosted)](https://img.shields.io/gitlab/pipeline/jdubz/dubzland-dhcpd?gitlab_url=https%3A%2F%2Fgit.dubzland.net)
 
-A brief description of the role goes here.
+Installs and configures the ISC DHCP Server.
 
-Requirements
-------------
+## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Ansible version 2.0 or higher.
 
-Role Variables
---------------
+## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Available variables are listed below, along with their default values (see
+    `defaults/main.yml` for more info):
 
-Dependencies
-------------
+### dubzland_dhcpd_interfaces
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+```yaml
+dubzland_dhcpd_interfaces: []
+```
 
-Example Playbook
-----------------
+Interfaces DHCPD should be configured to listen on
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+### dubzland_dhcpd_keys
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+dubzland_dhcpd_keys: []
+```
 
-License
+Keys to be configured to allow secure IPC.
+
+### dubzland_dhcpd_failovers
+
+```yaml
+dubzland_dhcpd_failovers: []
+```
+
+List of servers to be configured for DHCP failover.
+
+### dubzland_dhcpd_zones
+
+```yaml
+dubzland_dhcpd_zones: []
+```
+
+Dynamic DNS zones to keep updated.
+
+### dubzland_dhcpd_groups
+
+```yaml
+dubzland_dhcpd_groups: []
+```
+
+Groups of hosts/subnets that should share a common configuration.
+
+
+## Dependencies
+
+None
+
+## Example Playbook
+
+```yaml
+- hosts: dhcp-servers
+  become: yes
+  roles:
+  - role: dubzland-dhcpd
+    vars:
+      dubzland_dhcpd_interfaces:
+        - eth1
+      dubzland_dhcpd_failovers:
+        - name: my-failover
+          primary: 192.168.0.1
+          secondary: 192.168.0.2
+          split: 128
+      dubzland_dhcpd_keys:
+        - name: my-dynamic-key
+          secret: "{{ my_dynamic_key_secret_value }}"
+      dubzland_dhcpd_zones:
+        - name: example.com
+          primary: 192.168.0.1
+          key: my-dynamic-key
+        - name: 0.168.192.in-addr.arpa
+          primary: 192.168.0.1
+          key: my-dynamic-key
+      dubzland_dhcpd_groups:
+        - options: |
+            option domain-name example.com;
+          subnets:
+            - address: 192.168.0.0/24
+              pools:
+                - range: 192.168.0.101 192.168.0.200
+                  options: |
+                    failover peer "my-failover";
+              options: |
+                option routers 192.168.0.1;
+                option domain-name-servers 192.168.0.1;
+                option domain-search example.com;
+                option ntp-servers 192.168.0.1;
+          hosts:
+            - hostname: myhost
+              address: 192.168.0.12
+              mac: 00:11:22:aa:bb:cc
+```
+
+## License
 -------
 
-BSD
+MIT
 
-Author Information
-------------------
+## Author
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+* [Josh Williams](https://codingprime.com)

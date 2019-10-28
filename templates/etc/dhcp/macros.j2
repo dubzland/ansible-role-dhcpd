@@ -1,0 +1,110 @@
+{##############################################################################
+ #
+ # MACRO :: print_failover()
+ #
+ #############################################################################}
+{% macro print_failover(failover) %}
+failover peer "{{ failover.name }}" {
+{% if failover.primary is defined and failover.primary in ansible_all_ipv4_addresses | d([]) %}
+        primary;
+        address {{ failover.primary }};
+        peer address {{ failover.secondary }};
+        mclt {{ failover.mclt | default(3600) }};
+{%   if failover.split is defined and failover.split %}
+        split {{ failover.split }};
+{%   endif %}
+{% else %}
+        secondary;
+        address {{ failover.secondary }};
+        peer address {{ failover.primary }};
+{% endif %}
+        max-response-delay {{ failover.max_response_delay | default(30) }};
+        max-unacked-updates {{ failover.max_unacked_updates | default(10) }};
+{% if failover.load_balance_max_seconds is defined and failover.load_balance_max_seconds %}
+        load balance max seconds {{ failover.load_balance_max_seconds }};
+{% endif %}
+}
+{% endmacro %}
+{##############################################################################
+ #
+ # MACRO :: print_key()
+ #
+ #############################################################################}
+{% macro print_key(key) %}
+key {{ key.name }} {
+        algorithm {{ key.algorithm | default('hmac-md5') }};
+        secret {{ key.secret }};
+}
+{% endmacro %}
+{##############################################################################
+ #
+ # MACRO :: print_zone()
+ #
+ #############################################################################}
+{% macro print_zone(zone) %}
+zone {{ zone.name }} {
+        primary {{ zone.primary }};
+        key {{ zone.key }};
+}
+{% endmacro %}
+{##############################################################################
+ #
+ # MACRO :: print_group()
+ #
+ #############################################################################}
+{% macro print_group(group) %}
+group {
+
+{% if group.options is defined and group.options %}
+{{ group.options | indent(8, true) }}
+{% endif %}
+
+{% if group.subnets is defined and group.subnets %}
+{%   for subnet in group.subnets %}
+{{ print_subnet(subnet) | indent(8, true) }}
+{%   endfor %}
+{% endif %}
+{% if group.hosts is defined and group.hosts %}
+{%   for host in group.hosts %}
+{{ print_host(host) | indent(8, true) }}
+{%   endfor %}
+{% endif %}
+}
+{% endmacro %}
+{##############################################################################
+ #
+ # MACRO :: print_subnet()
+ #
+ #############################################################################}
+{% macro print_subnet(subnet) %}
+subnet {{ subnet.address | ipaddr('network') }} netmask {{ subnet.address | ipaddr('network') }} {
+{% if subnet.pools is defined and subnet.pools %}
+{%   for pool in subnet.pools %}
+        pool {
+                range {{ pool.range }};
+{%     if pool.options is defined and pool.options %}
+{{ pool.options | indent(16, true) }}
+{%     endif %}
+        }
+{%   endfor %}
+{% endif %}
+{% if subnet.options is defined and subnet.options %}
+{{ subnet.options | indent(8, true) }}
+{% endif %}
+}
+{% endmacro %}
+{##############################################################################
+ #
+ # MACRO :: print_hosts()
+ #
+ #############################################################################}
+{% macro print_hosts(hosts) %}
+{% for host in hosts %}
+host {{ host.hostname }} {
+        hardware ethernet {{ host.mac }};
+{%   if host.address is defined and host.address %}
+        fixed-address {{ host.address }};
+{%   endif %}
+}
+{% endfor %}
+{% endmacro %}

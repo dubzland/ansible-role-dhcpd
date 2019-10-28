@@ -1,6 +1,91 @@
 ---
+# List of IPv4 interfaces the dhcpd server should listen on
 dubzland_dhcpd_interfaces: []
+
+###############################################################################
+# DHCP failover configuration                                                 #
+###############################################################################
+#
+# dubzland_dhcpd_failovers:
+#   - name: myfailover
+#     primary: 192.168.0.1
+#     secondary: 192.168.0.2
+#     mclt: 3600
+#     split: 128
+#     max_response_delay: 5
+#     max_unacked_updates: 10
+#     load_balance_max_seconds: 5
+#
+###############################################################################
 dubzland_dhcpd_failovers: []
+
+###############################################################################
+# DHCP dynamic update keys                                                    #
+###############################################################################
+#
+# dubzland_dhcpd_keys:
+#   - name: "mykey"
+#     secret: "{{ dhcpd_very_secure_key }}"
+#     algorithm: "hmac-md5"
+#
+###############################################################################
 dubzland_dhcpd_keys: []
+
+###############################################################################
+# DHCP dynamic zones                                                          #
+###############################################################################
+#
+# dubzland_dhcpd_zones:
+#   - name: example.net
+#     primary: 192.168.0.1
+#     key: "mykey" (key name from above, not an actual key)
+#
+###############################################################################
 dubzland_dhcpd_zones: []
+
+###############################################################################
+# DHCP hosts                                                                  #
+# List of dicts describing statically configured hosts                        #
+###############################################################################
+#
+# dubzland_dhcpd_hosts:
+#   - hostname: myhost
+#     address: 192.168.0.20
+#     mac: 0a:1b:2c:3d:4e:5f
+#
+###############################################################################
+dubzland_dhcpd_hosts: []
+
+###############################################################################
+# DHCP subnets                                                                #
+# List of dicts describing this server's subnets                              #
+###############################################################################
+#
+# dubzland_dhcpd_subnets:
+#   - address: 192.168.0.0/24
+#     pools:
+#       - range: 192.168.0.101 192.168.0.200
+#         options: |
+#           failover peer "myfailover";
+#     options:
+#       option routers 192.168.0.1;
+#       option domain-name-servers 192.168.0.1;
+#
+###############################################################################
+dubzland_dhcpd_subnets: []
+
+###############################################################################
+# DHCP groups                                                                 #
+# Subnet/host groups for shared configuration                                 #
+###############################################################################
+#
+# dubzland_dhcpd_groups:
+#   - options: |
+#       option domain-name example.net;
+#     subnets:
+#       - <same format as dubzland_dhcpd_subnets above>
+#     hosts:
+#       - <same format as dubzland_dhcpd_hosts above>
+#
+###############################################################################
 dubzland_dhcpd_groups: []

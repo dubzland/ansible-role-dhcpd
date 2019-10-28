@@ -1,31 +1,11 @@
 ---
-- name: ensure the dhcpd packages are installed
-  apt:
-    name: isc-dhcp-server
-    state: present
-    install_recommends: no
-  tags:
-    - dhcpd
+- import_tasks: variables.yml
+- import_tasks: packages.yml
+- import_tasks: configuration.yml
 
-- name: ensure dhcpd listens on the proper interfaces
-  lineinfile:
-    dest: /etc/default/isc-dhcp-server
-    regexp: "^INTERFACESv4="
-    line: "INTERFACESv4=\"{{ dubzland_dhcpd_interfaces | join(' ') }}\""
-  notify:
-    - restart dhcpd
-  tags:
-    - dhcpd
+- meta: flush_handlers
 
-- name: ensure dhcpd is configured
-  template:
-    src: etc/dhcp/dhcpd.conf.j2
-    dest: /etc/dhcp/dhcpd.conf
-    owner: root
-    group: root
-    mode: 0660
-  notify:
-    - restart dhcpd
-  tags:
-    - dhcpd
-
+- name: ensure dhcpd is running
+  service:
+    name: "{{ dubzland_dhcpd_service }}"
+    state: started

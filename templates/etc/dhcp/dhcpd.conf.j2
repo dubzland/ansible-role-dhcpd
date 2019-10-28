@@ -1,3 +1,4 @@
+{% import 'macros.j2' as tpl with context %}
 # {{ ansible_managed }}
 
 authoritative;
@@ -6,92 +7,28 @@ ddns-update-style interim;
 
 {# FAILOVERS #}
 {% if dubzland_dhcpd_failovers is defined and dubzland_dhcpd_failovers %}
-{% for failover in dubzland_dhcpd_failovers %}
-failover peer "{{ failover.name }}" {
-{% if failover.primary is defined and failover.primary in ansible_all_ipv4_addresses | d([]) %}
-        primary;
-        address {{ failover.primary }};
-        peer address {{ failover.secondary }};
-        mclt {{ failover.mclt | default(3600) }};
-{% if failover.split is defined and failover.split %}
-        split {{ failover.split }};
-{% endif %}
-{% else %}
-        secondary;
-        address {{ failover.secondary }};
-        peer address {{ failover.primary }};
-{% endif %}
-        max-response-delay {{ failover.max_response_delay | default(30) }};
-        max-unacked-updates {{ failover.max_unacked_updates | default(10) }};
-{% if failover.load_balance_max_seconds is defined and failover.load_balance_max_seconds %}
-        load balance max seconds {{ failover.load_balance_max_seconds }};
-{% endif %}
-}
-{% endfor %}
+{%   for failover in dubzland_dhcpd_failovers %}
+{{ tpl.print_failover(failover) }}
+{%   endfor %}
 {% endif %}
 
 {# DYNAMIC DNS KEYS #}
 {% if dubzland_dhcpd_keys is defined and dubzland_dhcpd_keys %}
-{% for key in dubzland_dhcpd_keys %}
-key {{ key.name }} {
-        algorithm {{ key.algorithm | default('hmac-md5') }};
-        secret {{ key.secret }};
-}
-{% endfor %}
+{%   for key in dubzland_dhcpd_keys %}
+{{ tpl.print_key(key) }}
+{%   endfor %}
 {% endif %}
 
 {# DYNAMIC DNS ZONES #}
 {% if dubzland_dhcpd_zones is defined and dubzland_dhcpd_zones %}
-{% for zone in dubzland_dhcpd_zones %}
-zone {{ zone.name }} {
-        primary {{ zone.primary }};
-        key {{ zone.key }};
-}
-
-{% endfor %}
+{%   for zone in dubzland_dhcpd_zones %}
+{{ tpl.print_zone(zone) }}
+{%   endfor %}
 {% endif %}
 
 {# GROUPS #}
 {% if dubzland_dhcpd_groups is defined and dubzland_dhcpd_groups %}
-{% for group in dubzland_dhcpd_groups %}
-group {
-
-{% if group.options is defined and group.options %}
-{{ group.options | indent(8, true) }}
-{% endif %}
-
-{% if group.subnets is defined and group.subnets %}
-{% for subnet in group.subnets %}
-        subnet {{ subnet.address | ipaddr('network') }} netmask {{ subnet.address | ipaddr('netmask') }} {
-{% if subnet.pools is defined and subnet.pools %}
-{% for pool in subnet.pools %}
-                pool {
-                        range {{ pool.range }};
-{% if pool.options is defined and pool.options %}
-{{ pool.options | indent(24, true) }}
-{% endif %}
-                }
-{% endfor %}{# pools #}
-{% endif %}{# pools #}
-{% if subnet.options is defined and subnet.options %}
-{{ subnet.options | indent(16, true) }}
-{% endif %}
-        }
-{% endfor %}
-{% endif %}
-
-{% if group.hosts is defined and group.hosts %}
-{% for host in group.hosts %}
-        host {{ host.hostname }} {
-                hardware ethernet {{ host.mac }};
-{% if host.address is defined and host.address %}
-                fixed-address {{ host.address }};
-{% endif %}
-        }
-
-{% endfor %}
-{% endif %}
-}
-
-{% endfor %}
+{%   for group in dubzland_dhcpd_groups %}
+{{ tpl.print_group(group) }}
+{%   endfor %}
 {% endif %}

@@ -1,0 +1,10 @@
+---
+- name: ensure the dhcpd packages are installed
+  apt:
+    name: "{{ dubzland_dhcpd_packages }}"
+    state: present
+    install_recommends: no
+  notify:
+    - enable dhcpd
+  tags:
+    - dhcpd

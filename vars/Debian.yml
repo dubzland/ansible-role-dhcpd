@@ -1,0 +1,5 @@
+---
+dubzland_dhcpd_packages:
+  - isc-dhcp-server
+
+dubzland_dhcpd_service: isc-dhcp-server

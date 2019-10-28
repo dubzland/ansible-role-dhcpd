@@ -1,0 +1,23 @@
+---
+- name: ensure dhcpd listens on the proper interfaces
+  lineinfile:
+    dest: /etc/default/isc-dhcp-server
+    regexp: "^INTERFACESv4="
+    line: "INTERFACESv4=\"{{ dubzland_dhcpd_interfaces | join(' ') }}\""
+  notify:
+    - restart dhcpd
+  tags:
+    - dhcpd
+
+- name: ensure dhcpd is configured
+  template:
+    src: etc/dhcp/dhcpd.conf.j2
+    dest: /etc/dhcp/dhcpd.conf
+    owner: root
+    group: root
+    mode: 0660
+  notify:
+    - restart dhcpd
+  tags:
+    - dhcpd
+

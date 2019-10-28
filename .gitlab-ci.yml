@@ -1,16 +1,11 @@
-image: docker:19.03.1
-
-variables:
-  DOCKER_TLS_CERTDIR: "/certs"
+---
+image: jdubz/ci-docker-ansible:latest
 
 services:
   - docker:19.03.1-dind
 
-before_script:
-  - docker info
-
-test:
+molecule:
   stage: test
   script:
-    - docker build -t dubzland-dhcpd -f tests/Dockerfile .
-    - docker run dubzland-dhcpd /usr/src/dubzland-dhcpd/tests/run_tests.sh
+    - ansible --version
+    - molecule test
