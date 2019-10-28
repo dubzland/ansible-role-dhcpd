@@ -20,3 +20,10 @@
     - restart dhcpd
   tags:
     - dhcpd
+
+- name: ensure dhcpd configuration is valid
+  command: dhcpd -t
+  register: dhcpd_configuration_valid
+  failed_when: dhcpd_configuration_valid.rc != 0
+  tags:
+    - dhcpd
