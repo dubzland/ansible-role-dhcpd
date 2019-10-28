@@ -13,10 +13,14 @@ platforms:
     privileged: true
     pre_build_image: true
   - name: debian10
-    image: jdubz/docker-ansible-debian10
+    image: jdubz/docker-ansible-debian10:latest
+    override_command: False
+    tmpfs:
+      - /run
+      - /run/lock
+      - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
     pre_build_image: true
 provisioner:
   name: ansible

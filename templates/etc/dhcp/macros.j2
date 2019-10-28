@@ -77,7 +77,8 @@ group {
  #
  #############################################################################}
 {% macro print_subnet(subnet) %}
-subnet {{ subnet.address | ipaddr('network') }} netmask {{ subnet.address | ipaddr('network') }} {
+subnet {{ subnet.address | ipaddr('network') }} netmask {{ subnet.address |
+  ipaddr('netmask') }} {
 {% if subnet.pools is defined and subnet.pools %}
 {%   for pool in subnet.pools %}
         pool {

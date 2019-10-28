@@ -32,3 +32,10 @@ ddns-update-style interim;
 {{ tpl.print_group(group) }}
 {%   endfor %}
 {% endif %}
+
+{# SUBNETS #}
+{% if dubzland_dhcpd_subnets is defined and dubzland_dhcpd_subnets %}
+{%   for subnet in dubzland_dhcpd_subnets %}
+{{ tpl.print_subnet(subnet) }}
+{%   endfor %}
+{% endif %}
