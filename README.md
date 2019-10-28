@@ -103,7 +103,6 @@ None
 ```
 
 ## License
--------
 
 MIT
 
