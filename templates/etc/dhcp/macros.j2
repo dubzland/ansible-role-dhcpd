@@ -65,9 +65,7 @@ group {
 {%   endfor %}
 {% endif %}
 {% if group.hosts is defined and group.hosts %}
-{%   for host in group.hosts %}
-{{ print_host(host) | indent(8, true) }}
-{%   endfor %}
+{{ print_hosts(group.hosts) | indent(8, true) }}
 {% endif %}
 }
 {% endmacro %}
