@@ -20,4 +20,3 @@
     - restart dhcpd
   tags:
     - dhcpd
-
