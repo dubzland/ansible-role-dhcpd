@@ -1,5 +1,5 @@
 # Dubzland: DHCPD
-![Gitlab pipeline status (self-hosted)](https://img.shields.io/gitlab/pipeline/jdubz/dubzland-dhcpd?gitlab_url=https%3A%2F%2Fgit.dubzland.net)
+[![Gitlab pipeline status (self-hosted)](https://img.shields.io/gitlab/pipeline/jdubz/dubzland-dhcpd?gitlab_url=https%3A%2F%2Fgit.dubzland.net)](https://git.dubzland.net/jdubz/dubzland-dhcpd/pipelines)
 
 Installs and configures the ISC DHCP Server.
 
