@@ -1,7 +1,6 @@
 ---
 # List of IPv4 interfaces the dhcpd server should listen on
-dubzland_dhcpd_interfaces:
-  - "{{ ansible_default_ipv4.interface | default(eth0) }}"
+dubzland_dhcpd_interfaces: []
 
 ###############################################################################
 # DHCP failover configuration                                                 #
@@ -73,10 +72,7 @@ dubzland_dhcpd_hosts: []
 #       option domain-name-servers 192.168.0.1;
 #
 ###############################################################################
-dubzland_dhcpd_subnets:
-  - address: "{{ (ansible_default_ipv4.network + '/' + ansible_default_ipv4.netmask) | ipaddr('net') }}"
-    pools:
-      - range: "{{ (ansible_default_ipv4.network + '/' + ansible_default_ipv4.netmask) | ipaddr('net') | ipaddr('101') | ipaddr('address') }} {{ (ansible_default_ipv4.network + '/' + ansible_default_ipv4.netmask) | ipaddr('net') | ipaddr('200') | ipaddr('address') }}"
+dubzland_dhcpd_subnets: []
 
 ###############################################################################
 # DHCP groups                                                                 #

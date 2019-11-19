@@ -1,5 +1,5 @@
-# Dubzland: DHCPD
-[![Gitlab pipeline status (self-hosted)](https://img.shields.io/gitlab/pipeline/jdubz/dubzland-dhcpd?gitlab_url=https%3A%2F%2Fgit.dubzland.net)](https://git.dubzland.net/jdubz/dubzland-dhcpd/pipelines)
+# Ansible Role: DHCPD
+[![Gitlab pipeline status (self-hosted)](https://git.dubzland.net/dubzland/ansible-role-dhcpd/badges/master/pipeline.svg)](https://git.dubzland.net/dubzland/ansible-role-dhcpd)
 
 Installs and configures the ISC DHCP Server.
 
@@ -44,6 +44,14 @@ dubzland_dhcpd_zones: []
 
 Dynamic DNS zones to keep updated.
 
+###
+
+```yaml
+dubzland_dhcpd_subnets: []
+```
+
+List of subnets DHCPD is responsible for.
+
 ### dubzland_dhcpd_groups
 
 ```yaml
@@ -63,7 +71,7 @@ None
 - hosts: dhcp-servers
   become: yes
   roles:
-  - role: dubzland-dhcpd
+  - role: dubzland.dhcpd
     vars:
       dubzland_dhcpd_interfaces:
         - eth1
