@@ -2,6 +2,12 @@
 - name: Prepare
   hosts: all
   tasks:
-    - name: update the apt cache
+    - name: update the package cache
       package:
         update_cache: true
+
+    - name: install iproute2 package
+      package:
+        name: iproute2
+        state: present
+      when: ansible_distribution == 'Debian'

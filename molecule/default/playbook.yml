@@ -1,12 +1,22 @@
 ---
 - name: Converge
   hosts: all
+  pre_tasks:
+    - name: set the network address
+      set_fact:
+        network_cidr: "{{ '%s/%s' | format(ansible_eth0.ipv4.network, ansible_eth0.ipv4.netmask) | ipaddr('net') }}"
+
+    - name: set the pool
+      set_fact:
+        network_pool_start: "{{ network_cidr | ipaddr('101') | ipaddr('address') }}"
+        network_pool_end: "{{ network_cidr | ipaddr('200') | ipaddr('address') }}"
+
   roles:
     - role: ansible-role-dhcpd
       vars:
         dubzland_dhcpd_interfaces:
           - eth0
         dubzland_dhcpd_subnets:
-          - address: 172.17.0.0/24
+          - address: "{{ network_cidr }}"
             pools:
-              - range: 172.17.0.101 172.17.0.200
+              - range: "{{ network_pool_start }} {{ network_pool_end  }}"
