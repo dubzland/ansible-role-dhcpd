@@ -12,3 +12,4 @@
   service:
     name: "{{ dubzland_dhcpd_service }}"
     state: restarted
+  failed_when: False
