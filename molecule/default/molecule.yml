@@ -10,6 +10,7 @@ platforms:
     image: jdubz/docker-ansible-debian9:latest
     override_command: False
     pre_build_image: True
+    privileged: True
     tmpfs:
       - /run
       - /run/lock
@@ -19,6 +20,7 @@ platforms:
     image: jdubz/docker-ansible-debian10:latest
     override_command: False
     pre_build_image: True
+    privileged: True
     tmpfs:
       - /run
       - /run/lock
