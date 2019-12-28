@@ -104,6 +104,9 @@ host {{ host.hostname }} {
 {%   if host.address is defined and host.address %}
         fixed-address {{ host.address }};
 {%   endif %}
+{%   if host.ddns_hostname is defined and host.ddns_hostname %}
+        ddns-hostname {{ host.ddns_hostname }};
+{%   endif %}
 }
 {% endfor %}
 {% endmacro %}
